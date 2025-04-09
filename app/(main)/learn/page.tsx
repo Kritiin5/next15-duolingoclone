@@ -41,7 +41,7 @@ const  LearnPage = async () => {
         userSubscriptionData
     ]);
 
-    if(!userProgress || !userProgress.activeCourse){
+    if(!userProgress || !userProgress.activeCourse){                    // No Active Course yet, so redirect back to courses to choose one
         redirect("/courses");   //like a return method
     }
 
@@ -77,9 +77,9 @@ const  LearnPage = async () => {
                         description = {unit.description}
                         title = {unit.title}
                         lessons = {unit.lessons}
-                        activeLesson= {courseProgress.activeLesson as typeof lessons.$inferSelect & {
+                        activeLesson= {courseProgress.activeLesson as typeof lessons.$inferSelect & {           // This object is a Lesson AND ALSO it contains a unit,
                             unit: typeof unitSchema.$inferSelect;
-                        } | undefined}    //CHECK 5:04:40 FOR ANY CHANGE
+                        } | undefined}    
                         activeLessonPercentage={lessonPercentage}
 
                         />

@@ -12,10 +12,9 @@ import {
     userSubscription
 } from "@/db/schema";
 
-// TODO: KNOW THE EXPLANATIONS ALL THESE METHODS LATER
 
 export const getUserProgress = cache(async () => {
-    const { userId } = await auth();
+    const { userId } = await auth();              // Gets the logged-in user's ID
 
     if(!userId){
         return null;
@@ -39,7 +38,7 @@ export const getUnits = cache(async () => {
     if(!userId || !userProgress?.activeCourseId ){
         return [];
     }
-    // Can we do w DRIZZLE QUERY BUILDER?  If with pure sql, maybe faster or with reduce
+
     const data = await db.query.units.findMany({
         orderBy: (units, { asc }) => [asc(units.order)],
         where: eq(units.courseId, userProgress.activeCourseId),
@@ -242,11 +241,11 @@ export const getUserSubscription = cache(async() => {
 
     const isActive = 
     data.stripePriceId &&
-    data.stripeCurrentPeriodEnd?.getTime()! + DAY_IN_MS > Date.now();
+    data.stripeCurrentPeriodEnd?.getTime()! + DAY_IN_MS > Date.now();           // If the subscription hasn’t expired yet 
 
     return {
         ...data,
-        isActive: !!isActive,
+        isActive: !!isActive,  // True or False
     }; 
 });
 

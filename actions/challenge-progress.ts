@@ -76,7 +76,7 @@ export const upsertChallengeProgress = async (challengeId: number) => {
         return;
     }
 
-    await db.insert(challengeProgress).values({     // Enters this if user answers correct
+    await db.insert(challengeProgress).values({     // First time doing the challenge
         challengeId,
         userId,
         completed: true,

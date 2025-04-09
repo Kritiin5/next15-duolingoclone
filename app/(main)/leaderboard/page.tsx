@@ -26,7 +26,7 @@ const LeaderboardPage = async () => {
             leaderboardData,
     ]);
 
-    if (!userProgress || !userProgress.activeCourse) {
+    if (!userProgress || !userProgress.activeCourse) {                  // No Active Course yet, so redirect back to courses to choose one
         redirect("/courses");
     }
 
@@ -72,15 +72,15 @@ const LeaderboardPage = async () => {
                             >
                                 <AvatarImage 
                                     className="object-cover"
-                                    src={userProgress.userImageSrc}
+                                    src={userProgress.userImageSrc}         // Their profile picture
                                 />
 
                             </Avatar>
                             <p className="font-bold text-neutral-800 flex-1">
-                                {userProgress.userName}
+                                {userProgress.userName}                     {/* Their username */}
                             </p>
                             <p className="text-muted-foreground">
-                                {userProgress.points} XP
+                                {userProgress.points} XP                    {/* Their points */}
                             </p>
                         </div>
                     ))}

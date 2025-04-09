@@ -22,12 +22,12 @@ type Props = {
     activeCourseId?: typeof userProgress.$inferSelect.activeCourseId;
 };
 
-export const List = ({ courses, activeCourseId }: Props) => {
+export const List = ({ courses, activeCourseId }: Props) => {           // Renders the courses from the db using the Card component below
     const router = useRouter();
     //help to use server action and its pending state
     const [pending, startTransition] = useTransition();
 
-    const onClick = (id: number) => {
+    const onClick = (id: number) => {                   // Ignore if transition is already running
         if (pending) return;
 
 

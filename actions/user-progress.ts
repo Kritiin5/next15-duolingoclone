@@ -95,7 +95,7 @@ export const reduceHearts = async (challengeId: number) => {
     const isPractice = !!existingChallengeProgress;
 
     if (isPractice) {       // is like an API response
-        return { error: "practice" };
+        return { error: "practice" };               // Will prevent reduction of hearts
     }
 
     if (!currentUserProgress) {
@@ -103,10 +103,10 @@ export const reduceHearts = async (challengeId: number) => {
     }
 
     if(userSubscription?.isActive) {
-        return { error: "subscription" };       // Will prevent reduction of hearts
+        return { error: "subscription" };           // Will prevent reduction of hearts
     }
 
-    if(currentUserProgress.hearts === 0) {
+    if(currentUserProgress.hearts === 0) {          // Hearts ALREADY AT ZERO
         return { error: "hearts" };
     }
 

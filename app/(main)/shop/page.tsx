@@ -22,7 +22,7 @@ const ShopPage = async () => {
             userSubscriptionData
     ]);
 
-    if (!userProgress || !userProgress.activeCourse) {
+    if (!userProgress || !userProgress.activeCourse) {                      // No Active Course yet, so redirect back to courses to choose one
         redirect("/courses");
     }
 

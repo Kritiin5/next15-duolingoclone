@@ -48,7 +48,7 @@ export const Quiz = ({
     const { open: openHeartsModal } = useHeartsModal();
     const { open: openPracticeModal } = usePracticeModal();
 
-    // If already at 100 %, bring up the dialog
+    // If already at 100 %, bring up the PRACTICE dialog
     useMount(() => {
         if(initialPercentage === 100) {
             openPracticeModal();
@@ -85,10 +85,10 @@ export const Quiz = ({
     });
 
     const [challenges] = useState(initialLessonChallenges); //Have to get current challenge to be able to get the title 'dynamically instead of hardcoding it'
-    // Navigate to what challenge the user is currently on
-    // activeIndex is loading the first in the array of challenges.
+   
+    // This sets up the starting challenge whether 0th or uncompletedIndex.
     const [activeIndex, setActiveIndex] = useState(() => {
-        const uncompletedIndex  = challenges.findIndex((challenge) => !challenge.completed);
+        const uncompletedIndex  = challenges.findIndex((challenge) => !challenge.completed);        // If all challenges are completed the uncompletedIndex is -1, so start from first again.
         return uncompletedIndex === -1 ? 0 : uncompletedIndex;   //load first challenge or uncompleted challenge
     });
 
@@ -111,8 +111,8 @@ export const Quiz = ({
         // cant change their selection if status overall is correct.
         if(status != "none") return;
 
-        setSelectedOption(id);
-    }
+        setSelectedOption(id);                      // Save the selected option
+    }   
 
     const onContinue = () => {
         if (!selectedOption) return;
@@ -141,7 +141,7 @@ export const Quiz = ({
             startTransition(() => {
                 upsertChallengeProgress(challenge.id)
                     .then((response) => {
-                    if (response?.error === "hearts") {
+                    if (response?.error === "hearts") {                             // Run out of hearts so cant play
                         openHeartsModal();
                         return;
                     }
@@ -150,7 +150,7 @@ export const Quiz = ({
                     setStatus("correct");
                     setPercentage((prev) => prev + 100 / challenges.length);        // increment the per by one new completed challenge
 
-                    // This is a practice
+                    // This is a practice, RENEWAL OF HEARTS
                     if (initialPercentage === 100) {
                         setHearts((prev) => Math.min(prev + 1, 5));
                     }
@@ -170,9 +170,7 @@ export const Quiz = ({
                         setStatus("wrong")
 
                         if (!response?.error) {
-                            // If error in subscrip or prac error no point reducing hearts in frontend.
-                            // So only if I no longer get any errors in responses(userprogress.ts - 100, 108, 110 has been surpassed, and now in the backend -115, hearts are being reduced.)
-                            // Thus have to reduce hearts in Front End too.
+                            // Everything went well, never goes below 0
                             setHearts((prev) => Math.max(prev - 1, 0));
                         }
                     })
@@ -181,7 +179,7 @@ export const Quiz = ({
         }
     };
 
-    if (!challenge) {
+    if (!challenge) {                       // Reached the END of the lesson.
         return(
             <>
                 {finishAudio}
